@@ -1,4 +1,5 @@
 # TIBER-BE Project
 
-# berisikan project belum final 
-# Ksatria : making users and personalizations migrations
+# Berisikan Project Belum Final 
+# Changes, bug and fixes:
+- Nasrul : Created 2 new tables and deleted laravel default tables
