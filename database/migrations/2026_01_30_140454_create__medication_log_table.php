@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('medication_log', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->date('log_date');
             $table->time('logged_time');
         });
