@@ -11,6 +11,23 @@ class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
+    public $timestamps = false;
+
+    public function UserStat()
+    {
+        return $this->hasOne(UserStat::class, 'id');
+    }
+    
+    public function Personalization()
+    {
+        return $this->hasOne(Personalization::class, 'id');
+    }
+
+    public function MedicationLogs()
+    {
+        return $this->hasMany(MedicationLogs::class, 'id');
+    }
+    
 
     /**
      * The attributes that are mass assignable.
@@ -18,7 +35,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'fullname',
         'email',
         'password',
     ];
@@ -41,7 +58,7 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
+            // 'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
     }
