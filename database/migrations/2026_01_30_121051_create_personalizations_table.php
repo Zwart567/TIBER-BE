@@ -18,8 +18,8 @@ return new class extends Migration
             $table->integer('duration_month');
             $table->integer('control_freq_value');
             $table->enum('control_freq_unit', ['days', 'weeks', 'months']);
-            $table->date('last_checkup_date');
-            $table->date('next_checkup_date');
+            $table->date('last_checkup_date')->nullable();
+            $table->date('next_checkup_date')->nullable();
             $table->time('reminder_time');
             $table->enum('time_category', ['pagi', 'siang', 'sore', 'malam']);
             $table->timestamps();
