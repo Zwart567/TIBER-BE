@@ -51,3 +51,4 @@ php artisan serve
 - Nasrul : Added dashboard summary & confirm medication API
 - Nasrul : Modified personalization table for last checkup and next checkup date to be initialized with register API
 - Nasrul : fixed user stats table
+- Nasrul : Added Profile changing password and full name API
