@@ -1,6 +1,47 @@
 # TIBER-BE Project
-Berisikan Project Belum Final 
-# Changes, bug and fixes:
+- Dev branch contains development demo that can run
+- feat/"feature name" contains development features
+
+## How To Run
+
+### 0. Requirements
+Make sure you have these things ready and working:
+- PHP
+- Laravel
+- A database server or you can simply run it locally using XAMPP, laragon, etc.
+
+### 1. Adding The .env File
+Copy the existing .env.example file and modify it according to your needs
+Here are the example
+
+```bash
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=tiber
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Save it and rename it to just .env
+
+### 2. Generate The Autoload Files
+To generate autoload files simply, on terminal go to the directory this file is in and run
+
+```bash
+composer update
+```
+
+And wait until it is finished
+
+### 3. Running The Project
+Then finally simply run this to start
+
+```bash
+php artisan serve
+```
+
+## Changes, bug and fixes:
 - Ksatria : Created users and personalizations migrations
 - Nasrul : Added 2 new tables and deleted laravel default tables
 - Nasrul : Modified 2 tables to include user_id and diasabled $timestamp field list

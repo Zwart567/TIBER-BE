@@ -11,3 +11,6 @@ Route::post('/register', [AuthController::class, 'register']);
 // dashboard
 Route::middleware('auth:sanctum')->get('/dashboard',[AuthController::class, 'dashboard']);
 Route::middleware('auth:sanctum')->post('/log',[AuthController::class, 'log']);
+
+//Profile
+Route::middleware('auth:sanctum')->put('/user',[AuthController::class, 'user']);
