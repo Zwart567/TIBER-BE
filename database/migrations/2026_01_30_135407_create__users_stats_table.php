@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('users_stats', function (Blueprint $table) {
             $table->id();
-            $table->integer('highest_streak');
-            $table->date('last_taken_date');
+            $table->unsignedBigInteger('user_id');
             $table->integer('current_streak');
+            $table->integer('highest_streak');
+            $table->date('last_taken_date')->nullable();
         });
     }
 

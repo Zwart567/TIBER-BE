@@ -7,5 +7,6 @@ Berisikan Project Belum Final
 - Nasrul : Added models for each tables, personalization, users_stats, medication_log are child tables to users
 - Ksatria : Added Auth API Login and Logout
 - Nasrul : Added Auth register API
-- Nasrul : Changes the last_checkup_date & next_checkup_date field list to nullable
-
+- Nasrul : Added dashboard summary & confirm medication API
+- Nasrul : Modified personalization table for last checkup and next checkup date to be initialized with register API
+- Nasrul : fixed user stats table
