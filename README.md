@@ -52,3 +52,4 @@ php artisan serve
 - Nasrul : Modified personalization table for last checkup and next checkup date to be initialized with register API
 - Nasrul : fixed user stats table
 - Nasrul : Added Profile changing password and full name API
+- Nasrul : Fixed API file structures & fixed bugs on Dashboard API
