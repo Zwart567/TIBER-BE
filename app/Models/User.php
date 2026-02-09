@@ -12,7 +12,6 @@ class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
-    public $timestamps = false;
 
     public function UserStat()
     {

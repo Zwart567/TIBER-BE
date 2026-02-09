@@ -17,7 +17,7 @@ return new class extends Migration
             $table->date('start_date');
             $table->integer('duration_month');
             $table->integer('control_freq_value');
-            $table->enum('control_freq_unit', ['days', 'weeks', 'months']);
+            $table->enum('control_freq_unit', ['day', 'week', 'month']);
             $table->date('last_checkup_date')->nullable();
             $table->date('next_checkup_date')->nullable();
             $table->time('reminder_time');

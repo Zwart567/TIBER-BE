@@ -9,7 +9,7 @@ class Personalization extends Model
 {
     use HasFactory;
     protected $table = 'personalizations';
-    public $timestamps = false;
+    // public $timestamps = false;
 
     public function user()
     {

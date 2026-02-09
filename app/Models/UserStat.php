@@ -9,7 +9,7 @@ class UserStat extends Model
 {
     use HasFactory;
     protected $table = 'users_stats';
-    public $timestamps = false;
+    // public $timestamps = false;
 
     public function user()
     {

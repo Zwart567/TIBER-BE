@@ -23,6 +23,7 @@ class DashboardController extends Controller
         $request->user()->currentAccessToken();
 
         $userId = $request -> user() -> id;
+        $userWhere = User::where('id', $userId)->first();
         $userStatWhere = UserStat::where('user_id', $userId)->first();
         $personalizationWhere= Personalization::where('user_id', $userId)->first();
         $logWhere = MedicationLogs::where('user_id', $userId)->first();
@@ -33,7 +34,7 @@ class DashboardController extends Controller
         $daysPassed = 0;
         $today = Carbon::now();
         if ($totalDays != $daysPassed){
-            $startDate = Carbon::parse($personalizationWhere->start_date);
+            $startDate = Carbon::parse($userWhere->created_at);
             $daysPassed = abs($startDate->diffInDays($today));
         }else{
             // Tanyakan ke team apakah perlu edge casing kalau sudah lebih dari total days
@@ -67,13 +68,13 @@ class DashboardController extends Controller
         $userId = $request -> user() -> id;
         
         $request->validate([
-            'log_date' => 'required|date',
+            'log_date' => 'required|date|date_equals:today',
             'logged_time' => 'required',
         ]);
 
         
         $dateExisted = MedicationLogs::where('user_id',$userId)->where('log_date',$request->input('log_date'))->exists();
-
+        
         if ($dateExisted){
 
             return response()->json([
@@ -81,6 +82,17 @@ class DashboardController extends Controller
                 'message'=>'You have already confirmed medication for today.',
             ],400);
         }
+
+        // $dateTarget = Carbon::parse($request->input('log_date'));
+        // $today = Carbon::now();
+        // $dateDiff = abs($dateTarget->diffInDays($today));
+
+        // if ((int)$dateDiff > 0){
+        //     return response()->json([
+        //         'status'=>'error',
+        //         'message'=>'The date must be The same as today!',
+        //     ],400);
+        // }
 
         MedicationLogs::create([
                 'user_id' => $request-> user()-> id,
@@ -127,7 +139,7 @@ class DashboardController extends Controller
             'data' => [
                 'new_streak' => $userStatWhere->current_streak,
                 'highest_streak' => $userStatWhere->highest_streak,
-            ]
+            ],
         ],200);
 
     }

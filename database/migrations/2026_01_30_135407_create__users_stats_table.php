@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('current_streak');
             $table->integer('highest_streak');
             $table->date('last_taken_date')->nullable();
+            $table->timestamps();
         });
     }
 

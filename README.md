@@ -26,7 +26,7 @@ DB_PASSWORD=
 Save it and rename it to just .env
 
 ### 2. Generate The Autoload Files
-To generate autoload files simply, on terminal go to the directory this file is in and run
+To generate autoload files on terminal simply, go to the directory of this file is in and run
 
 ```bash
 composer update
@@ -35,7 +35,7 @@ composer update
 And wait until it is finished
 
 ### 3. Running The Project
-Then finally simply run this to start
+Then finally run this to start
 
 ```bash
 php artisan serve
@@ -53,3 +53,7 @@ php artisan serve
 - Nasrul : fixed user stats table
 - Nasrul : Added Profile changing password and full name API
 - Nasrul : Fixed API file structures & fixed bugs on Dashboard API
+- Nasrul : Bug fixes on DashboardController (days_passed,last_checkup, next_checkup).
+- Nasrul : Added Edge cases on confirm_medication (now only accept if it is on the same day)
+- Nasrul : Changed naming scheme enum on personalization table migration
+- Nasrul : Added new get personalization API
