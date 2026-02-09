@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->date('log_date');
             $table->time('logged_time');
+            $table->timestamps();
         });
     }
 

@@ -9,7 +9,7 @@ class MedicationLogs extends Model
 {
     use HasFactory;
     protected $table = 'medication_log';
-    public $timestamps = false;
+    // public $timestamps = false;
     
     public function user()
     {

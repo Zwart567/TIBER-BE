@@ -35,7 +35,7 @@ class AuthController extends Controller
         if (! $user || ! Hash::check($request->password, $user->password)) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Invalid Credentials'
+                'message' => 'Invalid credentials'
             ], 401);
         }
 
@@ -62,6 +62,7 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+        
         $request->validate([
             'user.fullname'=>'required|string',
             'user.email'=>'required|email|unique:users,email',
@@ -81,11 +82,14 @@ class AuthController extends Controller
             'password'=>Hash::make($request->input('user.password')),
         ]);
 
-        $startDate = Carbon::parse($request->input('personalization.start_date'));
+        //
+        $userWhere = User::where('email', $request->input('user.email'))->first();
+
+        $startDate = Carbon::parse($userWhere->created_at);
         $nextCheckupDate = $startDate->copy();
-        if ($request->input('personalization.control_freq_unit') == 'months'){
+        if ($request->input('personalization.control_freq_unit') == 'month'){
             $nextCheckupDate = $nextCheckupDate->addDays(30*$request->input('personalization.control_freq_value'));
-        }else if ($request->input('personalization.control_freq_unit') == 'weeks'){
+        }else if ($request->input('personalization.control_freq_unit') == 'week'){
             $nextCheckupDate = $nextCheckupDate->addDays(7*$request->input('personalization.control_freq_value'));
         }else {
             $nextCheckupDate = $nextCheckupDate->addDays(1*$request->input('personalization.control_freq_value'));
@@ -101,7 +105,7 @@ class AuthController extends Controller
             'time_category'=> $request->input('personalization.time_category'),
             
             // Kayaknya last checkup ngambil dari start date aja sebagai inisialisasi
-            'last_checkup_date' => $request->input('personalization.start_date'),
+            'last_checkup_date' => $userWhere->created_at,
             'next_checkup_date' => $nextCheckupDate
         ]);
 
@@ -118,54 +122,4 @@ class AuthController extends Controller
         ],200);
     }
 
-
-    
-
-    // ----------------------------------------------------------------------------------------------------------
-    // BAGIAN PROFILE & SETTINGS
-    // ----------------------------------------------------------------------------------------------------------
-
-    public function user(Request $request){
-        
-        $request->user()->currentAccessToken();
-
-        $userId = $request -> user() -> id;
-        $userWhere = User::where('id', $userId)->first();
-
-        $request->validate([
-            'fullname'=>'required|string',
-            'old_password'=>'required',
-            'new_password'=>'required',
-
-        ]);
-        
-
-        $oldPassword = Hash::make($request -> input('old_password'));
-        $newPassword = Hash::make($request -> input('new_password'));
-
-        // ! $user || ! Hash::check($request->password, $user->password)
-        if (Hash::check($request->old_password,$userWhere->password) && $oldPassword != $newPassword){
-            
-            $userWhere -> password = $newPassword;
-            $userWhere -> fullname = $request->input('fullname');
-            $userWhere->save();
-        
-        }else if ($oldPassword == $newPassword){
-            return response()->json([
-              'status' => 'error',
-              'message' => 'The Old password and the new password is the same.'
-            ],400);
-        }
-        else{
-            return response()->json([
-              'status' => 'error',
-              'message' => 'The old password you entered is incorrect.'
-            ],400);
-        }
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Profile updated',
-        ],200);
-    }
 }
