@@ -58,4 +58,4 @@ php artisan serve
 - Nasrul : Changed naming scheme enum on personalization table migration
 - Nasrul : Added new get personalization API
 - Nasrul : Added new get activity overview
-- Ksatria : Added new get activity monthly calendar and fix coding of model MedicationLogs.php
+- Ksatria : Added new get activity monthly calendar and fix code of model MedicationLogs.php
