@@ -61,3 +61,4 @@ php artisan serve
 - Nasrul : Added new get activity overview
 - Ksatria : Added new get activity monthly calendar
 - Ksatria : Fix code of model MedicationLogs.php
+- Ksatria : Added expire token up to 1 hour
