@@ -83,17 +83,6 @@ class DashboardController extends Controller
             ],400);
         }
 
-        // $dateTarget = Carbon::parse($request->input('log_date'));
-        // $today = Carbon::now();
-        // $dateDiff = abs($dateTarget->diffInDays($today));
-
-        // if ((int)$dateDiff > 0){
-        //     return response()->json([
-        //         'status'=>'error',
-        //         'message'=>'The date must be The same as today!',
-        //     ],400);
-        // }
-
         MedicationLogs::create([
                 'user_id' => $request-> user()-> id,
                 'log_date' => $request -> input('log_date'),
