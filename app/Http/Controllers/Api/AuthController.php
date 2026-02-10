@@ -97,7 +97,7 @@ class AuthController extends Controller
 
         Personalization::create([
             'user_id'=> $user->id,
-            'start_date'=> $startDate,
+            'start_date'=> $request->input('personalization.start_date'),
             'duration_month'=> $request->input('personalization.duration_month'),
             'control_freq_value'=> $request->input('personalization.control_freq_value'),
             'control_freq_unit'=> $request->input('personalization.control_freq_unit'),

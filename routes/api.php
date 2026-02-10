@@ -19,6 +19,7 @@ Route::middleware('auth:sanctum')->post('/log',[DashboardController::class, 'log
 
 //Activity & History
 Route::middleware('auth:sanctum')->get('/activity/overview', [ActivityHistory::class, 'ActivityOverview']);
+Route::middleware('auth:sanctum')->get('/activity/logs-weekly/{week_start}',[ActivityHistory::class,'WeeklyLog']);
 
 //Profile
 Route::middleware('auth:sanctum')->put('/user',[ProfileController::class, 'user']);
