@@ -57,3 +57,4 @@ php artisan serve
 - Nasrul : Added Edge cases on confirm_medication (now only accept if it is on the same day)
 - Nasrul : Changed naming scheme enum on personalization table migration
 - Nasrul : Added new get personalization API
+- Nasrul : Added new get activity overview
