@@ -43,6 +43,7 @@ php artisan serve
 
 ## Changes, bug and fixes:
 - Ksatria : Created users and personalizations migrations
+- Ksatria : Install the sanctum component on Laravel via composer
 - Nasrul : Added 2 new tables and deleted laravel default tables
 - Nasrul : Modified 2 tables to include user_id and diasabled $timestamp field list
 - Nasrul : Added models for each tables, personalization, users_stats, medication_log are child tables to users
@@ -58,4 +59,5 @@ php artisan serve
 - Nasrul : Changed naming scheme enum on personalization table migration
 - Nasrul : Added new get personalization API
 - Nasrul : Added new get activity overview
-- Ksatria : Added new get activity monthly calendar and fix code of model MedicationLogs.php
+- Ksatria : Added new get activity monthly calendar
+- Ksatria : Fix code of model MedicationLogs.php
