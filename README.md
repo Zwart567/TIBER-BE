@@ -62,3 +62,4 @@ php artisan serve
 - Ksatria : Added new get activity monthly calendar
 - Ksatria : Fix code of model MedicationLogs.php
 - Ksatria : Added expire token up to 1 hour
+- Ksatria : Added error unauthorized if token is wrong or expired
