@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\PersonalizationController;
 use App\Http\Controllers\Api\ActivityHistory;
+use App\Http\Controllers\Api\MonthlyCalendarController;
 
 // Login, logout, register
 Route::post('/login', [AuthController::class, 'login']);
@@ -24,3 +25,6 @@ Route::middleware('auth:sanctum')->put('/user',[ProfileController::class, 'user'
 
 //Get Personalization
 Route::middleware('auth:sanctum')->get('/personalization',[PersonalizationController::class,'personalization']);
+
+//Get Monthly calendar
+Route::middleware('auth:sanctum')->get('/activity/calendar/{month}', [MonthlyCalendarController::class, 'monthlyCalendar']);
