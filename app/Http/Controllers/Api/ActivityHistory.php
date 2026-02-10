@@ -23,6 +23,7 @@ class ActivityHistory extends Controller
         $userWhere = User::Where('id',$userId)->first();
 
         $weeklySummary = [];
+        $status = 'none';
 
         $today = Carbon::now();
         $sevenDaysAgo = $today->copy()->subDay(7);
@@ -31,11 +32,8 @@ class ActivityHistory extends Controller
 
         $actualLogDates = $logWhere->whereBetween('log_date',[$sevenDaysAgo,$today])->pluck('log_date')->toArray();
 
-        for ($i = 0; $i < 7; $i++){
-
-        }
         
-        // took yesterday because today is supposedly on 
+        // Rehaul, this one became rwcent logs, and weekly logs changed to return weeks 
         for ($i = 0; $i < 7; $i++){
             $dateCheck = Carbon::now()->subDay($i)->format('Y-m-d');
 
@@ -77,6 +75,14 @@ class ActivityHistory extends Controller
                 'weekly_summary'=> $weeklySummary,
                 'recent_logs'=>$recentLogs
             ]
+        ],200);
+    }
+
+    public function WeeklyLog(Request $request, $week_start){
+        $request->user()->currentAccessToken();
+
+        return response()->json([
+            'test'=>$week_start
         ],200);
     }
 }

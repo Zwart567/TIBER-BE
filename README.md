@@ -63,3 +63,5 @@ php artisan serve
 - Ksatria : Fix code of model MedicationLogs.php
 - Ksatria : Added expire token up to 1 hour
 - Ksatria : Added error unauthorized if token is wrong or expired
+- Nasrul : fixed personalization start_date field table
+- Nasrul : fixed days_passed, now follows according to start_date

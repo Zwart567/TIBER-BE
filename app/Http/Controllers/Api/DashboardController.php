@@ -34,7 +34,7 @@ class DashboardController extends Controller
         $daysPassed = 0;
         $today = Carbon::now();
         if ($totalDays != $daysPassed){
-            $startDate = Carbon::parse($userWhere->created_at);
+            $startDate = Carbon::parse($personalizationWhere->start_date);
             $daysPassed = abs($startDate->diffInDays($today));
         }else{
             // Tanyakan ke team apakah perlu edge casing kalau sudah lebih dari total days
