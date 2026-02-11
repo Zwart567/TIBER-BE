@@ -28,6 +28,11 @@ class User extends Authenticatable
         return $this->hasMany(MedicationLogs::class, 'user_id');
     }
 
+    public function CheckupNotes()
+    {
+        return $this->hasMany(MedicationLogs::class, 'user_id');
+    }
+
 
     /**
      * The attributes that are mass assignable.

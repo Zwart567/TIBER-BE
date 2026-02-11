@@ -24,10 +24,18 @@ class ActivityHistory extends Controller
         $weeklySummary = [];
         $today = Carbon::now();
 
-        $actualLogDates = $logWhere->whereBetween('log_date',[Carbon::now()->startOfWeek(),Carbon::now()->endOfWeek()])
-            ->get()
-            ->pluck('log_date')
-            ->toArray();
+        if ($logWhere){
+
+            $actualLogDates = $logWhere->where('user_id',$userId)->whereBetween('log_date',[Carbon::now()->startOfWeek(),Carbon::now()->endOfWeek()])
+                ->get()
+                ->pluck('log_date')
+                ->toArray();
+        } else {
+            return response()->json([
+                'status'=>'error',
+                'message'=>'No medication logs found, please confirm medication first'
+            ],404);
+        }
 
         $startWeek = Carbon::now()->startOfWeek();
         $status = 'none';
@@ -51,7 +59,7 @@ class ActivityHistory extends Controller
             ];
         }
 
-        $recentLogs = $logWhere->orderBy('log_date','desc')->take(7)->get()->map(function($log){
+        $recentLogs = $logWhere->where('user_id',$userId)->orderBy('log_date','desc')->take(7)->get()->map(function($log){
             return [
                 'id'=>$log->id,
                 'user_id'=>$log->user_id,
@@ -91,10 +99,18 @@ class ActivityHistory extends Controller
         $logs = [];
         $endDate = $startDate->copy()->addDay(7);
 
-        $actualLogDates = $logWhere->whereBetween('log_date',[$startDate, $endDate])
-            ->get()
-            ->pluck('log_date')
-            ->toArray();
+        if ($logWhere){
+
+            $actualLogDates = $logWhere->where('user_id',$userId)->whereBetween('log_date',[$startDate, $endDate])
+                ->get()
+                ->pluck('log_date')
+                ->toArray();
+        }else {
+            return response()->json([
+                'status'=>'error',
+                'message'=>'No medication logs found, please confirm medication first'
+            ],404);
+        }
 
         for ($i = 0; $i < 7; $i++){
             $dateLoop = $startDate->copy()->addDay($i);
