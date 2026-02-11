@@ -76,4 +76,5 @@ php artisan serve
 - Nasrul : Added new feature Checkup Note Get, Put, Post
 - Ksatria : Added update medication and checkup reminder (Personalization)
 - Ksatria : Fix expire token up to 3 days
+- Ksatria : Fix message error token in monthly calendar
 
