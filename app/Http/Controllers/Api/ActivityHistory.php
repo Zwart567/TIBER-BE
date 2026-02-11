@@ -18,47 +18,40 @@ class ActivityHistory extends Controller
         $request->user()->currentAccessToken();
 
         $userId = $request->user()->id;
-        // $userStatWhere = UserStat::where('user_id',$userId)->first();
         $logWhere = MedicationLogs::where('user_id',$userId)->first();
         $userWhere = User::Where('id',$userId)->first();
 
         $weeklySummary = [];
+        $today = Carbon::now();
+
+        $actualLogDates = $logWhere->whereBetween('log_date',[Carbon::now()->startOfWeek(),Carbon::now()->endOfWeek()])
+            ->get()
+            ->pluck('log_date')
+            ->toArray();
+
+        $startWeek = Carbon::now()->startOfWeek();
         $status = 'none';
 
-        $today = Carbon::now();
-        $sevenDaysAgo = $today->copy()->subDay(7);
-        
-        $createdAt = Carbon::parse($userWhere->created_at)->format('Y-m-d');
-
-        $actualLogDates = $logWhere->whereBetween('log_date',[$sevenDaysAgo,$today])->pluck('log_date')->toArray();
-
-        
-        // Rehaul, this one became rwcent logs, and weekly logs changed to return weeks 
         for ($i = 0; $i < 7; $i++){
-            $dateCheck = Carbon::now()->subDay($i)->format('Y-m-d');
 
-            if ($dateCheck == $createdAt){
-                $weeklySummary[] = [
-                    'date'=>$dateCheck,
-                    'status'=>$status,
-                ];
-
-                break;
-            }else{
-                if (in_array($dateCheck,$actualLogDates)){
-                    $status = 'taken';
-                }else {
-                    $status = 'missed';
-                }
-            }
+            $dateLoop = $today->startOfWeek()->addDay($i)->format('Y-m-d');
+            $todayCheck = Carbon::now()->format('Y-m-d');
             
+            if (in_array($dateLoop,$actualLogDates) && $dateLoop <= $todayCheck){
+                $status = 'taken';
+            }else if ($dateLoop <= $todayCheck) {
+                $status = 'missed';
+            }else {
+                $status = 'none';
+            }
+
             $weeklySummary[] = [
-                'date'=>$dateCheck,
+                'date'=>$dateLoop,
                 'status'=>$status,
             ];
         }
-        
-        $recentLogs = $logWhere->orderBy('log_date','desc')->take(1)->get()->map(function($log){
+
+        $recentLogs = $logWhere->orderBy('log_date','desc')->take(7)->get()->map(function($log){
             return [
                 'id'=>$log->id,
                 'user_id'=>$log->user_id,
@@ -68,7 +61,7 @@ class ActivityHistory extends Controller
             ];
 
         });
-
+        
         return response()->json([
             'status'=>'success',
             'data'=>[
@@ -80,9 +73,57 @@ class ActivityHistory extends Controller
 
     public function WeeklyLog(Request $request, $week_start){
         $request->user()->currentAccessToken();
+        
+        $userId = $request->user()->id;
+        $logWhere = MedicationLogs::where('user_id',$userId)->first();
+
+        try{
+            $startDate = Carbon::parse($week_start);
+
+        }catch (\Exception $e){
+
+            return response()->json([
+                'status'=>'error',
+                'message'=>'Please input a valid date within (Y-m-d) format'
+            ],400);
+        }
+
+        $logs = [];
+        $endDate = $startDate->copy()->addDay(7);
+
+        $actualLogDates = $logWhere->whereBetween('log_date',[$startDate, $endDate])
+            ->get()
+            ->pluck('log_date')
+            ->toArray();
+
+        for ($i = 0; $i < 7; $i++){
+            $dateLoop = $startDate->copy()->addDay($i);
+            $dateCheck = $dateLoop->format('Y-m-d');
+
+            if (in_array($dateCheck,$actualLogDates) && $dateLoop->lte(Carbon::now())){
+                $status = 'taken';
+            }else if ($dateLoop->lte(Carbon::now())){
+                $status = 'missed';
+            }else {
+                $status = 'none';
+            }
+
+            $logs[]=[
+                'date'=>$dateLoop->format('Y-m-d'),
+                'day'=>$dateLoop->dayName,
+                'status'=>$status,
+            ];
+
+        }
+
+        $weekRange = $startDate->format('d M') . ' - ' . $dateLoop->format('d M');
 
         return response()->json([
-            'test'=>$week_start
+            'status'=>'succes',
+            'data'=>[
+                'week_range'=>$weekRange,
+                'logs'=>$logs
+            ]
         ],200);
     }
 }
