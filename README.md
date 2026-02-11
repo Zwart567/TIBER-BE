@@ -65,6 +65,7 @@ php artisan serve
 - Ksatria : Added error unauthorized if token is wrong or expired
 - Nasrul : fixed personalization start_date field table
 - Nasrul : fixed days_passed, now follows according to start_date
-- Nasrul : fixed erro 401 login message
+- Nasrul : fixed error 401 login message
 - Nasrul : fixed get activity overview
 - Nasrul : Added weekly histort logged
+- Ksatria : fix expire token up to 3 days
