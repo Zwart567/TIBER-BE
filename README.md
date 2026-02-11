@@ -74,4 +74,6 @@ php artisan serve
 - Nasrul : Temporary edge case on ActivityHistory if medication logs returns null (empty), it returns 404 error
 - Nasrul : Added new table for new feature
 - Nasrul : Added new feature Checkup Note Get, Put, Post
+- Ksatria : Added update medication and checkup reminder (Personalization)
+- Ksatria : Fix expire token up to 3 days
 
