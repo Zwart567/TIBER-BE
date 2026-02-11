@@ -58,7 +58,7 @@ php artisan serve
 - Nasrul : Added Edge cases on confirm_medication (now only accept if it is on the same day)
 - Nasrul : Changed naming scheme enum on personalization table migration
 - Nasrul : Added new get personalization API
-- Nasrul : Added new get activity overview
+- Nasrul : Added new get activity overview  
 - Ksatria : Added new get activity monthly calendar
 - Ksatria : Fix code of model MedicationLogs.php
 - Ksatria : Added expire token up to 1 hour
@@ -67,4 +67,8 @@ php artisan serve
 - Nasrul : fixed days_passed, now follows according to start_date
 - Nasrul : fixed erro 401 login message
 - Nasrul : fixed get activity overview
-- Nasrul : Added weekly histort logged
+- Nasrul : Added weekly history logged
+- Nasrul : fixed register user edge case enumeration time_category & control_freq_unit
+- Nasrul : Temporary edge case on ActivityHistory if medication logs returns null (empty), it returns 404 error
+- Nasrul : Added new table for new feature
+- Nasrul : Added new feature Checkup Note Get, Put, Post

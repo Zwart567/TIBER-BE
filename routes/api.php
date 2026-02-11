@@ -7,6 +7,8 @@ use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\PersonalizationController;
 use App\Http\Controllers\Api\ActivityHistory;
 use App\Http\Controllers\Api\MonthlyCalendarController;
+use App\Http\Controllers\Api\CheckupNote;
+
 
 // Login, logout, register
 Route::post('/login', [AuthController::class, 'login']);
@@ -29,3 +31,8 @@ Route::middleware('auth:sanctum')->get('/personalization',[PersonalizationContro
 
 //Get Monthly calendar
 Route::middleware('auth:sanctum')->get('/activity/calendar/{month}', [MonthlyCalendarController::class, 'monthlyCalendar']);
+
+//Checkup note get, post, & put
+Route::middleware('auth:sanctum')->post('/activity/add-checkup-note',[CheckupNote::class, 'AddCheckupNote']);
+Route::middleware('auth:sanctum')->get('/activity/show-checkup-note',[CheckupNote::class, 'GetCheckupNote']);
+Route::middleware('auth:sanctum')->put('/activity/edit-checkup-note',[CheckupNote::class, 'PutCheckupNote']);

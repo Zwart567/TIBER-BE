@@ -75,7 +75,19 @@ class AuthController extends Controller
             'personalization.reminder_time'=>'required',
             'personalization.time_category'=>'required|string',
         ]);
+        
+        $controlEnum = ['day','week','month'];
+        $timeEnum = ['pagi','siang','sore','malam'];
+        $checkControlEnum = $request->input('personalization.control_freq_unit');
+        $checkTimeEnum = $request->input('personalization.time_category');
 
+        if (!in_array($checkControlEnum,$controlEnum) || !in_array($checkTimeEnum,$timeEnum)){
+            return response()->json([
+                'status'=>'error',
+                'message'=>'Please input the correct enum'
+            ],400);
+        }
+        
         $user = User::create([
             'fullname'=> $request->input('user.fullname'),
             'email'=> $request->input('user.email'),
