@@ -36,3 +36,6 @@ Route::middleware('auth:sanctum')->get('/activity/calendar/{month}', [MonthlyCal
 Route::middleware('auth:sanctum')->post('/activity/add-checkup-note',[CheckupNote::class, 'AddCheckupNote']);
 Route::middleware('auth:sanctum')->get('/activity/show-checkup-note',[CheckupNote::class, 'GetCheckupNote']);
 Route::middleware('auth:sanctum')->put('/activity/edit-checkup-note',[CheckupNote::class, 'PutCheckupNote']);
+
+//Update Medication Checkup reminder (Personalization)
+Route::middleware('auth:sanctum')->put('/personalization', [ProfileController::class, 'updatePersonalization']);
