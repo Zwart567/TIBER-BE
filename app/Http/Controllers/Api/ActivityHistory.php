@@ -20,6 +20,7 @@ class ActivityHistory extends Controller
         $userId = $request->user()->id;
         $logWhere = MedicationLogs::where('user_id',$userId)->first();
         $userWhere = User::Where('id',$userId)->first();
+        $statWhere = UserStat::where('user_id',$userId)->first();
 
         $weeklySummary = [];
         $today = Carbon::now();
@@ -73,6 +74,7 @@ class ActivityHistory extends Controller
         return response()->json([
             'status'=>'success',
             'data'=>[
+                'highest_streak'=>$statWhere->highest_streak,
                 'weekly_summary'=> $weeklySummary,
                 'recent_logs'=>$recentLogs
             ]

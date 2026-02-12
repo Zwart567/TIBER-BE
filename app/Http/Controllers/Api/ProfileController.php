@@ -36,27 +36,6 @@ class ProfileController extends Controller
             $userWhere->fullname = $request->input('fullname');
         }
 
-        // if ($request->filled('new_password') && $request->filled('old_password')){
-
-        //     if (hash::check($request->old_password, $userWhere->password)){
-        //        return response()->json([
-        //           'status' => 'error',
-        //           'message' => 'The old password you entered is incorrect.'
-        //         ],400);
-        //     }
-        //     else if (hash::check($request->input('new_password'), $userWhere->password)){
-        //         return response()->json([
-        //           'status' => 'error',
-        //           'message' => 'The old password and the new password is the same.'
-        //         ],400);
-        //     }
-
-        //     $userWhere->password = Hash::make($request->input('new_password'));
-
-        // }
-
-
-
         $oldPassword = $request -> input('old_password');
         $newPassword = $request -> input('new_password');
 
@@ -86,28 +65,6 @@ class ProfileController extends Controller
             'message' => 'Profile updated',
         ],200);
 
-        // $oldPassword = Hash::make($request -> input('old_password'));
-        // $newPassword = Hash::make($request -> input('new_password'));
-
-        // if (Hash::check($request->old_password,$userWhere->password) && $oldPassword != $newPassword){
-
-        //     $userWhere -> password = $newPassword;
-        //     $userWhere -> fullname = $request->input('fullname');
-        //     $userWhere->save();
-
-        // }else if ($oldPassword == $newPassword){
-        //     return response()->json([
-        //       'status' => 'error',
-        //       'message' => 'The Old password and the new password is the same.'
-        //     ],400);
-        // }
-        // else{
-        //     return response()->json([
-        //       'status' => 'error',
-        //       'message' => 'The old password you entered is incorrect.'
-        //     ],400);
-        // }
-
 
     }
 
@@ -115,11 +72,11 @@ class ProfileController extends Controller
     public function updatePersonalization(Request $request)
     {
         $request->validate([
-            'reminder_time' => 'required|date_format:H:i:s',
-            'time_category' => 'required|string',
-            'last_checkup_date' => 'required|date',
-            'control_freq_value' => 'required|integer|min:1',
-            'control_freq_unit' => 'required|in:days,weeks,months'
+            'reminder_time' => 'nullable|date_format:H:i:s',
+            'time_category' => 'nullable|string|in:pagi,siang,sore,malam',
+            'last_checkup_date' => 'nullable|date',
+            'control_freq_value' => 'nullable|integer|min:1',
+            'control_freq_unit' => 'nullable|in:day,week,month'
         ]);
 
         $user = $request->user();
@@ -128,27 +85,44 @@ class ProfileController extends Controller
             'user_id' => $user->id
         ]);
 
-        $lastCheckup = Carbon::parse($request->last_checkup_date);
-        $nextCheckup = match ($request->control_freq_unit) {
-            'days' => $lastCheckup->copy()->addDays($request->control_freq_value),
-            'weeks' => $lastCheckup->copy()->addWeeks($request->control_freq_value),
-            'months' => $lastCheckup->copy()->addMonths($request->control_freq_value),
-        };
+        if ($request->filled('reminder_time')){
+            $personalization->update(['reminder_time' => $request->reminder_time]);
+        }
 
-        $personalization->update([
-            'reminder_time' => $request->reminder_time,
-            'time_category' => $request->time_category,
-            'last_checkup_date' => $request->last_checkup_date,
-            'control_freq_value' => $request->control_freq_value,
-            'control_freq_unit' => $request->control_freq_unit,
-            'next_checkup_date' => $nextCheckup->toDateString(),
-        ]);
+        if ($request->filled('time_category')){
+            $personalization->update(['time_category' => $request->time_category]);
+        }
+
+        
+        if ($request->filled('last_checkup_date')){
+            $personalization->update(['last_checkup_date' => $request->last_checkup_date]);
+        }
+
+        if ($request->filled('control_freq_value')){
+            $personalization->update(['control_freq_value' => $request->control_freq_value]);
+        }
+
+        $controlValue = $personalization->control_freq_value;
+        if ($request->filled('control_freq_unit')){
+            $personalization->update(['control_freq_unit' => $request->control_freq_unit]);   
+        }
+
+        $dateCheck = Carbon::parse($personalization->last_checkup_date);
+        if ($request->control_freq_unit == 'month'){
+            $personalization->update(['next_checkup_date'=>$dateCheck->addDays(30*$personalization->control_freq_value)]);
+        }else if ($request->control_freq_unit == 'week'){
+            $personalization->update(['next_checkup_date'=>$dateCheck->addDayss(7*$personalization->control_freq_value)]);
+        }else {
+            $personalization->update(['next_checkup_date'=>$dateCheck->addDays($personalization->control_freq_value)]);
+        }
+
+        
 
         return response()->json([
             'status' => 'success',
             'message' => 'Reminder Update',
             'data' => [
-                'next_chechkup_date' => $nextCheckup->toDateString(),
+                'next_checkup_date' => $personalization->next_checkup_date->format('Y-m-d'),
             ]
         ], 200);
     }
