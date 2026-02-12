@@ -77,4 +77,5 @@ php artisan serve
 - Ksatria : Added update medication and checkup reminder (Personalization)
 - Ksatria : Fix expire token up to 3 days
 - Ksatria : Fix message error token in monthly calendar
-
+- Nasrul : Fixed edge cases on UpdatePersonalization
+- Nasrul : Added highest streak response on /api/activity/overview/
