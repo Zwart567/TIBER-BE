@@ -23,7 +23,15 @@ class ActivityHistory extends Controller
         $statWhere = UserStat::where('user_id',$userId)->first();
 
         $weeklySummary = [];
+        $recentLogs = [];
+        $highestStreakOut;
         $today = Carbon::now();
+
+        if ($userWhere->highest_streak){
+            $highestStreakOut = $userWhere->highest_streak;
+        }else {
+            $highestStreakOut = 0; 
+        }
 
         if ($logWhere){
 
@@ -31,36 +39,9 @@ class ActivityHistory extends Controller
                 ->get()
                 ->pluck('log_date')
                 ->toArray();
-        } else {
-            return response()->json([
-                'status'=>'error',
-                'message'=>'No medication logs found, please confirm medication first'
-            ],404);
-        }
 
-        $startWeek = Carbon::now()->startOfWeek();
-        $status = 'none';
 
-        for ($i = 0; $i < 7; $i++){
-
-            $dateLoop = $today->startOfWeek()->addDay($i)->format('Y-m-d');
-            $todayCheck = Carbon::now()->format('Y-m-d');
-            
-            if (in_array($dateLoop,$actualLogDates) && $dateLoop <= $todayCheck){
-                $status = 'taken';
-            }else if ($dateLoop <= $todayCheck) {
-                $status = 'missed';
-            }else {
-                $status = 'none';
-            }
-
-            $weeklySummary[] = [
-                'date'=>$dateLoop,
-                'status'=>$status,
-            ];
-        }
-
-        $recentLogs = $logWhere->where('user_id',$userId)->orderBy('log_date','desc')->take(7)->get()->map(function($log){
+            $recentLogs = $logWhere->where('user_id',$userId)->orderBy('log_date','desc')->take(7)->get()->map(function($log){
             return [
                 'id'=>$log->id,
                 'user_id'=>$log->user_id,
@@ -70,6 +51,40 @@ class ActivityHistory extends Controller
             ];
 
         });
+        } 
+
+        $startWeek = Carbon::now()->startOfWeek();
+        $status = 'none';
+
+        for ($i = 0; $i < 7; $i++){
+
+            $dateLoop = $today->startOfWeek()->addDay($i)->format('Y-m-d');
+            $todayCheck = Carbon::now()->format('Y-m-d');
+            
+            if ($logWhere){
+
+                if (in_array($dateLoop,$actualLogDates) && $dateLoop <= $todayCheck){
+                    $status = 'taken';
+                }else if ($dateLoop <= $todayCheck) {
+                    $status = 'missed';
+                }else {
+                    $status = 'none';
+                }
+            }else {
+                if ($dateLoop <= $todayCheck) {
+                    $status = 'missed';
+                }else {
+                    $status = 'none';
+                }
+            }
+
+            $weeklySummary[] = [
+                'date'=>$dateLoop,
+                'status'=>$status,
+            ];
+        }
+
+        
         
         return response()->json([
             'status'=>'success',
