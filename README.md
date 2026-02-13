@@ -80,3 +80,4 @@ php artisan serve
 - Nasrul : Fixed edge cases on UpdatePersonalization
 - Nasrul : Added highest streak response on /api/activity/overview/
 - Nasrul : Fixed activity overview, now show response even though data is empty on the database
+- Ksatria : Fix update medication and checkup reminder (Personalization)
