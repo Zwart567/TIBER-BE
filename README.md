@@ -81,3 +81,6 @@ php artisan serve
 - Nasrul : Added highest streak response on /api/activity/overview/
 - Nasrul : Fixed activity overview, now show response even though data is empty on the database
 - Ksatria : Fix update medication and checkup reminder (Personalization)
+- Nasrul : Fixed activity History, WeeklyLogs part. Now showed response even when medication logs empty
+- Nasrul : Added next_checkup_date on updatePersonalization
+- Nasrul : checkup note now changed into just a regular note

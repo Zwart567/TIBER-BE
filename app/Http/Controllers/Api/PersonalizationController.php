@@ -18,8 +18,8 @@ class PersonalizationController extends Controller
         $personalizationWhere = Personalization::where('user_id', $userId)->first();
 
         return response()->json([
-            'Status'=>'success',
-            'Data'=>[
+            'status'=>'success',
+            'data'=>[
                 'start_date'=>$personalizationWhere->start_date,
                 'duration_month'=>$personalizationWhere->duration_month,
                 'control_freq_value'=>$personalizationWhere->control_freq_value,

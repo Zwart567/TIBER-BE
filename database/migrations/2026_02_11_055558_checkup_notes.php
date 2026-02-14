@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('checkup_note', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->date('checkup_control');
             $table->string('status');
             $table->enum('color_status', ['biru','hijau','kuning']);
             $table->text('notes');
