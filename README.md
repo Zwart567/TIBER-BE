@@ -84,3 +84,4 @@ php artisan serve
 - Nasrul : Fixed activity History, WeeklyLogs part. Now showed response even when medication logs empty
 - Nasrul : Added next_checkup_date on updatePersonalization
 - Nasrul : checkup note now changed into just a regular note
+- Ksatria : Fix update medication dan checkup reminder (Personalization) part 2

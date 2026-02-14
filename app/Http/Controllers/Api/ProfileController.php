@@ -87,28 +87,28 @@ class ProfileController extends Controller
         ]);
 
         if ($request->has('reminder_time')
-            && $request->reminder_time != $personalization->reminder_time) {
+            && $request->reminder_time != null) {
 
             $personalization->update(['reminder_time' => $request->reminder_time]);
             $updateData['reminder_time'] = $request->reminder_time;
         }
 
         if ($request->has('time_category')
-            && $request->time_category != $personalization->time_category) {
+            && $request->time_category != null) {
 
             $personalization->update(['time_category' => $request->time_category]);
             $updateData['time_category'] = $request->time_category;
         }
 
         if ($request->has('last_checkup_date')
-            && $request->last_checkup_date != $personalization->last_checkup_date) {
+            && $request->last_checkup_date != null) {
 
             $personalization->update(['last_checkup_date' => $request->last_checkup_date]);
             $updateData['last_checkup_date'] = $request->last_checkup_date;
         }
 
         if ($request->has('control_freq_value')
-            && $request->control_freq_value != $personalization->control_freq_value) {
+            && $request->control_freq_value != null) {
 
             $personalization->update(['control_freq_value' => $request->control_freq_value]);
             $updateData['control_freq_value'] = $request->control_freq_value;
@@ -116,7 +116,7 @@ class ProfileController extends Controller
 
         // king aku nambahin statement nge check next checkup date, soalnya kalau ini diubah value, sama unit jadi diitung ulang
         if ($request->has('control_freq_unit')
-            && $request->control_freq_unit != $personalization->control_freq_unit
+            && $request->control_freq_unit != null
             && !$request->has('next_checkup_date')) {
 
             $personalization->update(['control_freq_unit' => $request->control_freq_unit]);
@@ -124,8 +124,8 @@ class ProfileController extends Controller
         }
 
         if (
-            $personalization->last_checkup_date &&
-            $personalization->control_freq_value &&
+            $personalization->last_checkup_date ||
+            $personalization->control_freq_value ||
             $personalization->control_freq_unit
         ) {
             $dateCheck = Carbon::parse($personalization->last_checkup_date);
@@ -151,7 +151,7 @@ class ProfileController extends Controller
 
             if ($nextCheck->gt($lastCheck)){
                 $daysCheck = $lastCheck->diffInDays($nextCheck);
-                
+
                 // fmod ngehasilin nilai desimal kalau nilainya desimal, kalau nilai bulet nanti hasilnya 0
                 if (fmod($daysCheck/30,1) == 0){
                     $personalization->update(['control_freq_unit' => 'month','control_freq_value'=> $daysCheck/30]);
@@ -175,7 +175,7 @@ class ProfileController extends Controller
                     'message'=>'next_checkup_date cannot be less or equal to last_checkup_date'
                 ],400);
             }
-        }   
+        }
 
         return response()->json([
             'status'  => 'success',
