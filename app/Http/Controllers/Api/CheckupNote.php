@@ -38,7 +38,6 @@ class CheckupNote extends Controller
 
         $checkup = CheckupNotes::create([
             'user_id'=>$userWhere->id,
-            'checkup_control'=>$personalizationWhere->next_checkup_date,
             'status'=>$request->input('status'),
             'color_status'=>$request->input('color_status'),
             'notes'=>$request->input('notes'),
