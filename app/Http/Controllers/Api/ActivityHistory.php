@@ -114,6 +114,7 @@ class ActivityHistory extends Controller
         }
 
         $logs = [];
+        $actualLogDates = [];
         $endDate = $startDate->copy()->addDay(7);
 
         if ($logWhere){
@@ -122,11 +123,6 @@ class ActivityHistory extends Controller
                 ->get()
                 ->pluck('log_date')
                 ->toArray();
-        }else {
-            return response()->json([
-                'status'=>'error',
-                'message'=>'No medication logs found, please confirm medication first'
-            ],404);
         }
 
         for ($i = 0; $i < 7; $i++){
@@ -154,7 +150,7 @@ class ActivityHistory extends Controller
         return response()->json([
             'status'=>'succes',
             'data'=>[
-                'week_range'=>$weekRange,
+                'week_range '=>$weekRange,
                 'logs'=>$logs
             ]
         ],200);
