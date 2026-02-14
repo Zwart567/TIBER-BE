@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class MonthlyCalendarController extends Controller
 {
-    public function monthlyCalendar(Request $request, $month)
+    public function monthlyCalendar(Request $request, $month = null)
     {
         $user = $request->user();
 

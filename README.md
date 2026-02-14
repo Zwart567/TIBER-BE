@@ -85,3 +85,4 @@ php artisan serve
 - Nasrul : Added next_checkup_date on updatePersonalization
 - Nasrul : checkup note now changed into just a regular note
 - Ksatria : Fix update medication dan checkup reminder (Personalization) part 2
+- Ksatria : Fix MonthlyCalendar error message, when route not found become response body is 400 bad request

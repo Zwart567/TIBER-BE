@@ -30,7 +30,7 @@ Route::middleware('auth:sanctum')->put('/user',[ProfileController::class, 'user'
 Route::middleware('auth:sanctum')->get('/personalization',[PersonalizationController::class,'personalization']);
 
 //Get Monthly calendar
-Route::middleware('auth:sanctum')->get('/activity/calendar/{month}', [MonthlyCalendarController::class, 'monthlyCalendar']);
+Route::middleware('auth:sanctum')->get('/activity/calendar/{month?}', [MonthlyCalendarController::class, 'monthlyCalendar']);
 
 //Checkup note get, post, & put
 Route::middleware('auth:sanctum')->post('/activity/add-checkup-note',[CheckupNote::class, 'AddCheckupNote']);
