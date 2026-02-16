@@ -88,4 +88,5 @@ php artisan serve
 - Ksatria : Fix MonthlyCalendar error message, when route not found become response body is 400 bad request
 - Nasrul : Added new response email when login
 - Nasrul : Fixed get Checkup note response
+- Nasrul : Fixed ProfileController bug & DashboardSummary
 

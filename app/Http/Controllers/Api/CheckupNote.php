@@ -55,13 +55,6 @@ class CheckupNote extends Controller
         $userId = $request -> user() -> id;
         $checkupWhere = CheckupNotes::where('user_id',$userId)->get();
         
-        if ($checkupWhere->isEmpty()){
-            return response()->json([
-                'status'=>'error',
-                'message'=>'No checkup notes available'
-            ],404);
-        }
-
         return response()->json([
             'status'=>'success',
             'data'=>$checkupWhere

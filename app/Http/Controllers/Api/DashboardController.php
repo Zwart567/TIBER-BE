@@ -41,7 +41,27 @@ class DashboardController extends Controller
             $daysPassed = $totalDays;
         }
 
-        $nextCheckup = $personalizationWhere->next_checkup_date;
+
+        // semisalkan di hari-h +1 dia nambah sesuai control freq
+        $nextCheckup = Carbon::parse($personalizationWhere->next_checkup_date);
+        if (Carbon::now()->gt(Carbon::parse($personalizationWhere->next_checkup_date))){
+            $freqUnit = $personalizationWhere->control_freq_unit;
+            $freqValue = $personalizationWhere->control_freq_value;
+
+            $personalizationWhere->update(['last_checkup_date' => $nextCheckup]);
+
+            if ( $freqUnit == 'month'){
+                $personalizationWhere->update(['next_checkup_date' => $nextCheckup->addDays(30*$freqValue)]);
+            }else if ($freqUnit == 'week'){
+                $personalizationWhere->update(['next_checkup_date' => $nextCheckup->addDays(7*$freqValue)]);
+            }else {
+                $personalizationWhere->update(['next_checkup_date' => $nextCheckup->addDays($freqValue)]);
+            }
+            // terkadang next_checkup_date data typenya bukan Carbon date
+            $nextCheckup = $personalizationWhere->next_checkup_date->format('Y-m-d');
+        }else {
+            $nextCheckup = $personalizationWhere->next_checkup_date;
+        }
 
         $isTakenToday = false;
         if ($userStatWhere->last_taken_date){
@@ -49,9 +69,12 @@ class DashboardController extends Controller
             $isTakenToday = $lastTaken->isSameDay($today);
         }
 
+        $durationMonth = $personalizationWhere->duration_month;
+
         return response()->json([
             'status'=>'success',
             'data' => [
+                'duration_month' => $durationMonth,
                 'current_streak' => $currentStreak, 
                 'days_passed' => (int) $daysPassed,
                 'total_days' => $totalDays,
