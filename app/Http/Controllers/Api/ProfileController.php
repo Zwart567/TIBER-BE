@@ -130,9 +130,9 @@ class ProfileController extends Controller
         ) {
             $dateCheck = Carbon::parse($personalization->last_checkup_date);
 
-            if ($personalization->control_freq_unit == 'months') {
+            if ($personalization->control_freq_unit == 'month') {
                 $nextDate = $dateCheck->copy()->addDays(30 * $personalization->control_freq_value);
-            } else if ($personalization->control_freq_unit == 'weeks') {
+            } else if ($personalization->control_freq_unit == 'week') {
                 $nextDate = $dateCheck->copy()->addDays(7 * $personalization->control_freq_value);
             } else {
                 $nextDate = $dateCheck->copy()->addDays($personalization->control_freq_value);
@@ -158,11 +158,11 @@ class ProfileController extends Controller
                     $updateData['control_freq_unit'] = 'month';
                     $updateData['control_freq_value'] = $daysCheck/30;
                 } else if (fmod($daysCheck/7,1) == 0){
-                    $personalization->update(['control_freq_unit' => 'month','control_freq_value'=> $daysCheck/7]);
+                    $personalization->update(['control_freq_unit' => 'week','control_freq_value'=> $daysCheck/7]);
                     $updateData['control_freq_unit'] = 'week';
                     $updateData['control_freq_value'] = $daysCheck/7;
                 }else {
-                    $personalization->update(['control_freq_unit' => 'month','control_freq_value'=> $daysCheck]);
+                    $personalization->update(['control_freq_unit' => 'day','control_freq_value'=> $daysCheck]);
                     $updateData['control_freq_unit'] = 'day';
                     $updateData['control_freq_value'] = $daysCheck;
                 }
